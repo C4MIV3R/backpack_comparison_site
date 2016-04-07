@@ -1,0 +1,90 @@
+// -------------- Variables --------------------
+@navbar-background: #fff;
+@primary: #1EAEDB;
+
+body {
+  padding-top: 5rem;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+// ------------- Section Spacing ---------------
+.header {
+  margin-top: 7rem;
+  text-align: center;
+}
+// -------------- Navbar styles ----------------
+.navbar {
+  position: fixed;
+  display: block;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 5.5rem;
+  background: @navbar-background;
+  z-index: 99;
+  border-bottom: 1px solid #000;
+  .navbar-list {
+    list-style: none;
+    .navbar-item {
+      display: inline;
+      .navbar-link {
+        text-decoration: none;
+        color: #000;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: .2rem;
+        margin-right: 35px;
+        transition: color 0.2s ease;
+        line-height: 5.5rem;
+      }
+      .navbar-link:hover {
+        color: @primary;
+      }
+    }
+  }
+}
+// -------------- Random Link styles -------------
+.random-link {
+  text-decoration: none;
+  color: #000;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .2rem;
+  transition: color 0.2s ease;
+  margin-right: 35px;
+  line-height: 1.5rem;
+}
+.random-link:hover {
+  color: @primary;
+}
+// -------------- Footer styles ----------------
+#footer {
+ padding-top: 6.5rem;
+ padding-bottom: 2.5rem;
+ background-color: rgb(45, 43, 43);
+  .random-link {
+    color: #fff;
+ }
+  .random-link:hover {
+   color: @primary;
+ }
+  p {
+   color: #fff;
+   text-transform: uppercase;
+   font-size: 12px;
+   font-weight: 600;
+   letter-spacing: .2rem;
+ }
+  #twitter-link {
+   margin: 0;
+   color: @primary;
+ }
+ #twitter-link:hover {
+   color: #ff0000;
+ }
+}
