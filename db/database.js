@@ -8,8 +8,8 @@ mongoose.connection.on('connected', function() {
   console.log('Mongoose is connected to: ' + connectionString);
 });
 
-mongoose.connection.on('error', function(err) {
-  console.log('Mongoose has encounted an error: '+ err);
+mongoose.connection.on('error', function(error) {
+  console.log('Mongoose has encounted an error: '+ error);
 });
 
 mongoose.connection.on('disconnected', function() {
