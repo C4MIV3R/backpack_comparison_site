@@ -1,5 +1,4 @@
-var db = require('../db/database');
-var User = require('../models/user'),
+var User          = require('../models/user'),
     express       = require('express'),
     router        = express.Router(),
     bcrypt        = require('bcrypt'),
@@ -14,28 +13,23 @@ router.get('/', function(req, res, next) {
   res.render('login', { title: 'Login'});
 }) // ------------------ post to Login ----------------------
 .post('/login', function(req, res, next) {
-  var user = db.findOne(req.body.username);
-  var plainPassword = req.body.passwordHash;
-  var hashedPassword = bcrypt.hashSync(req.body.passwordHash, dbSalt);
-  var comparison = bcrypt.compareSync(plainPassword, user.passwordHash);
-  if (comparison === true) {
-    req.session.loggedIn = true;
-    console.log("YOU LOGGED IN");
-  } else {
-    console.log("FUCK YOU");
-  }
-
-  // --------- debuggin -----------------
-
-  // console.log('-------------- POST LOGIN ----------------');
-  // console.log(user);
-  // console.log(req.body.username);
-  // console.log(plainPassword);
-  // console.log(hashedPassword);
-  // console.log(bcrypt.hashSync(req.body.passwordHash, dbSalt));
-  // console.log(bcrypt.compareSync(plainPassword, hashedPassword));
-  // console.log('----------- END POST LOGIN ---------------');
-  res.redirect('/');
+  User.findOne({ username: req.body.username }, function(err, user) {
+    if (user) {
+      var enteredPassword = req.body.passwordHash;
+      var comparison = bcrypt.compareSync(enteredPassword, user.passwordHash);
+      if (comparison === true) {
+        req.session.loggedIn = true;
+        console.log("Welcome to the site.");
+        res.redirect('/');
+      } else {
+        console.log("The username or password you entered was incorrect.");
+        res.redirect('/login');
+      }
+    } else {
+      console.log("User doesn't exist.")
+        res.redirect('/login');
+      }
+  });
 }) // ------------------ get Register -----------------------
 .get('/register', function(req, res, next) {
   res.render('register', { title: 'Register'});
@@ -48,12 +42,10 @@ router.get('/', function(req, res, next) {
     firstName     : req.body.firstName,
     lastName      : req.body.lastName
   }, function(err, user) {
-    console.log(user.username);
-    console.log(user.passwordHash);
-    console.log('------------- END CALLBACK -----------------');
-    // req.session.loggedIn = true;
+    req.session.loggedIn = true;
+    console.log("You have created an account and been logged in.");
+    res.redirect('/');
   });
-  res.redirect('/');
 });
 
 module.exports = router;
