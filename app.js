@@ -5,15 +5,14 @@ var express         = require('express'),
     logger          = require('morgan'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    passport        = require('passport'),
-    LocalStrategy   = require('passport-local').Strategy;
+    app             = express(),
+    mongoose        = require('mongoose'),
+    session         = require('express-session');
 
-require('./db/database');
+require('./db/database.js');
 
 var routes    = require('./controllers/index');
 var users     = require('./controllers/users');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +29,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+// set up sessions for users
+app.use(session({
+  genid: function(req) {
+    return genuuid()
+  },
+  secret: 'chicago illinois',
+  resave: true,
+  saveUninitialized: false
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -61,6 +70,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
