@@ -30,8 +30,8 @@ router.get('/', function(req, res, next) {
         res.redirect('/login');
       }
     } else {
-      console.log("User doesn't exist.")
-        res.redirect('/login');
+      console.log("User doesn't exist.");
+      res.redirect('/register');
       }
   });
 }) // ------------------ get Register -----------------------

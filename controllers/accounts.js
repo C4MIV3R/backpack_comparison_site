@@ -6,7 +6,7 @@ var User = require('../models/user'),
 router.get('/', function(req, res, next) {
   if (req.session.loggedIn) {
     console.log(req.body); // empty object?
-    console.log(req.session);
+    console.log(req.session); // shows loggedIn as true
     res.render('account', { title: 'My Account' });
   } else res.redirect('/');
 });

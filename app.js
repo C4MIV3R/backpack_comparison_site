@@ -11,8 +11,8 @@ var express         = require('express'),
 
 require('./db/database.js');
 
-var routes    = require('./controllers/index');
-var accounts     = require('./controllers/accounts');
+var routes        = require('./controllers/index');
+var accounts      = require('./controllers/accounts');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
