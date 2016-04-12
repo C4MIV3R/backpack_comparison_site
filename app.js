@@ -12,7 +12,7 @@ var express         = require('express'),
 require('./db/database.js');
 
 var routes    = require('./controllers/index');
-var users     = require('./controllers/users');
+var accounts     = require('./controllers/accounts');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,7 +35,7 @@ app.use(session({
 }));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/account', accounts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

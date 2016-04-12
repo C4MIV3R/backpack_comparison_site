@@ -10,7 +10,10 @@ router.get('/', function(req, res, next) {
 })
 // ------------------ get Login -----------------------
 .get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login'});
+  if (req.session.loggedIn === true) {
+    console.log("You're already logged in!");
+    res.redirect('/');
+  } else res.render('login', { title: 'Login'});
 }) // ------------------ post to Login ----------------------
 .post('/login', function(req, res, next) {
   User.findOne({ username: req.body.username }, function(err, user) {
@@ -19,7 +22,8 @@ router.get('/', function(req, res, next) {
       var comparison = bcrypt.compareSync(enteredPassword, user.passwordHash);
       if (comparison === true) {
         req.session.loggedIn = true;
-        console.log("Welcome to the site.");
+        var currentUser = user.username;
+        console.log("Welcome to the site, "+ currentUser);
         res.redirect('/');
       } else {
         console.log("The username or password you entered was incorrect.");
@@ -32,20 +36,34 @@ router.get('/', function(req, res, next) {
   });
 }) // ------------------ get Register -----------------------
 .get('/register', function(req, res, next) {
-  res.render('register', { title: 'Register'});
+  if (req.session.loggedIn === true) {
+    console.log("You're already logged in!");
+    res.redirect('/');
+  } else res.render('register', { title: 'Register'});
 }) // ----------------- post to Register --------------------
 .post('/register', function(req, res, next) {
-  User.create({
-    username      : req.body.username,
-    passwordHash  : bcrypt.hashSync(req.body.passwordHash, dbSalt),
-    email         : req.body.email,
-    firstName     : req.body.firstName,
-    lastName      : req.body.lastName
-  }, function(err, user) {
-    req.session.loggedIn = true;
-    console.log("You have created an account and been logged in.");
-    res.redirect('/');
+  User.findOne({ username: req.body.username }, function(err, user) {
+    if (user) {
+      console.log('This user already exists.');
+      res.redirect('/register');
+    } else {
+      User.create({
+        username      : req.body.username,
+        passwordHash  : bcrypt.hashSync(req.body.passwordHash, dbSalt),
+        email         : req.body.email,
+        firstName     : req.body.firstName,
+        lastName      : req.body.lastName
+      }, function(err, user) {
+        req.session.loggedIn = true;
+        var currentUser = user.username;
+        console.log("You have created an account under the name "+ currentUser +" and been logged in.");
+        res.redirect('/');
+      });
+    }
   });
+})
+.get('/about', function(req, res, next) {
+  res.render('about', { title: 'About TechBags'});
 });
 
 module.exports = router;
