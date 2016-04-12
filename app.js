@@ -13,6 +13,7 @@ require('./db/database.js');
 
 var routes        = require('./controllers/index');
 var accounts      = require('./controllers/accounts');
+var bags          = require('./controllers/bags');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +37,7 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/account', accounts);
+app.use('/bags', bags);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
