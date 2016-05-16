@@ -30,10 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // set up sessions for users
 app.use(session({
-  secret: 'chicago',
-  resave: true,
+  secret: "LITERALLYANYTHING",
+  resave: false,
   saveUninitialized: false
 }));
+// end sessions
 
 app.use('/', routes);
 app.use('/account', accounts);
